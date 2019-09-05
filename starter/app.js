@@ -1,45 +1,52 @@
 // Module For Budget
 let budgetController = (function () {
 
-    // Everything here is private due to scope and can't be accessed on global scale
-    let x = 23;
-
-    let add = function (a) {
-        return x + a;
-    }
-
-    // Will return object to budgetController that can access data in outer function due to Closures
-    return {
-
-        // This method will always have accesss to the outer function above due to closure
-        // All tho the above won't be accessible globally. So we can have private info
-        publicTest: function (b) {
-            // console.log(add(b));
-            return add(b);
-        }
-    }
 
 })();
 
 // Module For UI
 let UIController = (function (params) {
-    
+
 
 
 
 
 })();
 
-// 2 parameters, argument passed in second paranthesis
-let controller = (function (budgetControl,UIControl) {
-    
-    let z = budgetControl.publicTest(5);
-    
-    return {
-        publicTest2: function () {
-            console.log(z);
-        }
+// GLOBAL APP CONTROLLER
+let controller = (function (budgetControl, UIControl) {
+
+    // 
+    let controllAddItem = function name(params) {
+        
+        // GET FIELD INPUT DATA
+
+        // ADD THE ITEM TO THE BUDGET CONTROLLER
+
+        // ADD THE ITEM TO THE UI
+
+        // CALCULATE THE BUDGET
+
+        // DISPLAY THE BUDGET ON THE UI
+
+        console.log('Works')
+
     }
 
+    document.querySelector('.add__btn').addEventListener('click', controllAddItem)
 
-})(budgetController,UIController);
+    // Event is object with information of our event 
+    document.addEventListener('keypress', function (event) {
+
+        // To see event properties
+        console.log(event);
+
+        // Enter key was pressed
+        if (event.keyCode === 13) {
+            // console.log('Enter was pressed')
+            controllAddItem();
+        }
+
+    })
+
+})(budgetController, UIController);
