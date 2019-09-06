@@ -22,9 +22,11 @@ let UIController = (function () {
 
     }
 
+    // This object that is returned will have access to the outer function, so DOMStrings is private unless 
+    // called with getInput mehthod
     return {
 
-        // We can return multiple methods so that UIcontroller will have access to many actions 
+        // We can place multiple methods so that UIcontroller will have access to many actions 
 
         getinput: function () {
 
