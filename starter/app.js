@@ -4,30 +4,24 @@ let budgetController = (function () {
 
 })();
 
-// Module For UI
+// Module For UI : UICONTROLLER will be returned an method with a function that returns the user input values in an object
 let UIController = (function (params) {
-
 
     return {
         getinput: function () {
 
-
+            // We can return multiple methods so that UIcontroller will have access to many actions 
             return {
 
-
-                // Get the user input from the bottom div
-                type = document.querySelector('.add__type').value;
-                description = document.querySelector('.add__description').value;
-                value = document.querySelector('.add__value').value;
+                // pass the user inputs as an object so we can access theem easier
+                type: document.querySelector('.add__type').value,
+                description: document.querySelector('.add__description').value,
+                value: document.querySelector('.add__value').value
 
             }
 
-
-
-
         }
     }
-
 
 })();
 
@@ -39,6 +33,9 @@ let controller = (function (budgetControl, UIControl) {
 
         // GET FIELD INPUT DATA
 
+        let input = UIController.getinput();
+        console.log(input);
+
         // ADD THE ITEM TO THE BUDGET CONTROLLER
 
         // ADD THE ITEM TO THE UI
@@ -46,8 +43,6 @@ let controller = (function (budgetControl, UIControl) {
         // CALCULATE THE BUDGET
 
         // DISPLAY THE BUDGET ON THE UI
-
-        console.log('Works')
 
     }
 
