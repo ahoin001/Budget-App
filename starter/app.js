@@ -8,17 +8,35 @@ let budgetController = (function () {
 let UIController = (function (params) {
 
 
+    return {
+        getinput: function () {
 
+
+            return {
+
+
+                // Get the user input from the bottom div
+                type = document.querySelector('.add__type').value;
+                description = document.querySelector('.add__description').value;
+                value = document.querySelector('.add__value').value;
+
+            }
+
+
+
+
+        }
+    }
 
 
 })();
 
-// GLOBAL APP CONTROLLER
+// GLOBAL APP CONTROLLER: We will tell other modules what to do from here
 let controller = (function (budgetControl, UIControl) {
 
     // 
     let controllAddItem = function name(params) {
-        
+
         // GET FIELD INPUT DATA
 
         // ADD THE ITEM TO THE BUDGET CONTROLLER
