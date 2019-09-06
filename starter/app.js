@@ -46,7 +46,7 @@ let UIController = (function () {
 
             }
 
-        } ,
+        },
 
         // Allows to call DOMStrings in public space if needed 
         getDOMStrings: function () {
@@ -59,8 +59,29 @@ let UIController = (function () {
 // GLOBAL APP CONTROLLER: We will tell other modules what to do from here
 let controller = (function (budgetControl, UIControl) {
 
-    // Allows us to access domstrings from UIController 
-    let DOMStrings = UIController.getDOMStrings();
+    // 
+    let setupEventListeners = function () {
+
+        // Allows us to access domstrings from UIController 
+        let DOMStrings = UIController.getDOMStrings();
+
+        // EVENT LISTENERS
+        document.querySelector(DOMStrings.inputAddButton).addEventListener('click', controllAddItem)
+
+        // Event is object with information of our event 
+        document.addEventListener('keypress', function (event) {
+
+            // To see event properties
+            // console.log(event);
+
+            // Enter key was pressed
+            if (event.keyCode === 13) {
+                // console.log('Enter was pressed')
+                controllAddItem();
+            }
+
+        })
+    }
 
     let controllAddItem = function name(params) {
 
@@ -79,20 +100,17 @@ let controller = (function (budgetControl, UIControl) {
 
     }
 
-    document.querySelector(DOMStrings.inputAddButton).addEventListener('click', controllAddItem)
+    // Expose a method that will call pur setup event listener function
+    return {
 
-    // Event is object with information of our event 
-    document.addEventListener('keypress', function (event) {
-
-        // To see event properties
-        // console.log(event);
-
-        // Enter key was pressed
-        if (event.keyCode === 13) {
-            // console.log('Enter was pressed')
-            controllAddItem();
+        init: function() {
+            console.log('App has started');
+            setupEventListeners();
         }
 
-    })
+    }
 
 })(budgetController, UIController);
+
+// Sets up event listeners
+controller.init();
