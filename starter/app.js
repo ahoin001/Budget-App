@@ -18,12 +18,12 @@ let budgetController = (function () {
     let data = {
 
         allItems: {
-            expenses: [],
-            incomes: []
+            exp: [],
+            inc: []
         },
         totals: {
-            expenses: [],
-            incomes: []
+            exp: 0,
+            inc: 0
         }
 
     }
@@ -34,22 +34,47 @@ let budgetController = (function () {
         // Recieves type desc and value
         addItem: function (type, description, value) {
 
-            let newItem;
+            let newItem, ID;
 
-            // if expense, create new instance of expense
+            if (data.allItems[type].length > 0) {
+
+                // create new ID
+                // The next ID created will alays be whatever the value of last ID is plus 1 So that every ID is unique and increase by 1
+                // Selects last inc/exp instance in the array, gets the value of its ID, and then adds 1
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+
+            }
+            else{
+                ID = 0;
+            }
+
+
+
+            // if type is expense, create new instance of expense
             if (type === 'exp') {
+
                 newItem = new Expense(ID, description, value);
 
             }
             // if income, create new instance of income
             else if (type === "inc") {
+
                 newItem = new Income(ID, description, value);
+
             }
 
+            // Acccess 'data' object structure, then the allItemsObject inside there, and will
+            // know what array to add item to based on type that was passed into function
+            data.allItems[type].push(newItem);
+
+
+            return newItem;
+
+        },
+        testing: function () {
+            console.log(data);
         }
-
-    }
-
+    };
 })();
 
 // Module For UI : UIController will be returned an method with a function that returns the user input values in an object
@@ -138,8 +163,8 @@ let controller = (function (budgetControl, UIControl) {
         let input = UIController.getinput();
         console.log(input);
 
-        // ADD THE ITEM TO THE BUDGET CONTROLLER
-
+        // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
+        budgetController.addItem(input.type, input.description, input.value);
 
         // ADD THE ITEM TO THE UI
 
