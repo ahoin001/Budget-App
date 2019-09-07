@@ -1,6 +1,54 @@
 // Module For Budget
 let budgetController = (function () {
 
+    // Constructors made by using function instead of class, each expense saved will have these 3 properties
+    let Expense = function (id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    let Income = function (id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    // Data Structures that will contain all expenses and incomes, and total expenses and total incomes
+    let data = {
+
+        allItems: {
+            expenses: [],
+            incomes: []
+        },
+        totals: {
+            expenses: [],
+            incomes: []
+        }
+
+    }
+
+    // Public methods we can use
+    return {
+
+        // Recieves type desc and value
+        addItem: function (type, description, value) {
+
+            let newItem;
+
+            // if expense, create new instance of expense
+            if (type === 'exp') {
+                newItem = new Expense(ID, description, value);
+
+            }
+            // if income, create new instance of income
+            else if (type === "inc") {
+                newItem = new Income(ID, description, value);
+            }
+
+        }
+
+    }
 
 })();
 
@@ -92,6 +140,7 @@ let controller = (function (budgetControl, UIControl) {
 
         // ADD THE ITEM TO THE BUDGET CONTROLLER
 
+
         // ADD THE ITEM TO THE UI
 
         // CALCULATE THE BUDGET
@@ -103,7 +152,7 @@ let controller = (function (budgetControl, UIControl) {
     // Expose a method that will call pur setup event listener function
     return {
 
-        init: function() {
+        init: function () {
             console.log('App has started');
             setupEventListeners();
         }
