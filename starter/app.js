@@ -44,11 +44,9 @@ let budgetController = (function () {
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
 
             }
-            else{
+            else {
                 ID = 0;
             }
-
-
 
             // if type is expense, create new instance of expense
             if (type === 'exp') {
@@ -66,7 +64,6 @@ let budgetController = (function () {
             // Acccess 'data' object structure, then the allItemsObject inside there, and will
             // know what array to add item to based on type that was passed into function
             data.allItems[type].push(newItem);
-
 
             return newItem;
 
@@ -91,7 +88,9 @@ let UIController = (function () {
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
-        inputAddButton: '.add__btn'
+        inputAddButton: '.add__btn',
+        incomeContainer: '.income__list',
+        expenseContainer: '.expenses__list'
 
     }
 
@@ -124,7 +123,57 @@ let UIController = (function () {
         // Allows to call DOMStrings in public space if needed 
         getDOMStrings: function () {
             return DOMStrings
+        },
+
+        // Adds item to dom
+        addListItem: function (obj, type) {
+
+            // Create HTML string with placeholder text (surrounded data we will replace is in '%dataToReplace%')
+            let html, newHtml, element;
+
+            if (type === 'inc') {
+
+                // TODO WHY IS REPLACE NOT WORKING FOR DESCRIPTION BUT IT WORKS FOR VALUE?
+                // The name of element we will target in DOM that we take from our DOMStrings object, so we can easily change classes
+                element = DOMStrings.incomeContainer;
+
+                html = `<div class="item clearfix" id="income-%id%">
+                            <div class="item__description">${obj.description}</div>
+                            <div class="right clearfix">
+                                <div class="item__value">+%value%</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                            </div>
+                        </div>`
+
+            } else if (type === 'exp') {
+
+                element = DOMStrings.expenseContainer;
+
+                html = `<div class="item clearfix" id = "expense-%id%" >
+                            <div class="item__description">${obj.description}</div>
+                            <div class="right clearfix">
+                                <div class="item__value">- %value%</div>
+                                <div class="item__percentage">21%</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                            </div>
+                        </div >`
+
+            }
+
+            // Replace placeholder text with actual data from object, newhtml equals the original string with the values replaced
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = html.replace('%desc%', obj.description);
+            newHtml = html.replace('%value%', obj.value);
+
+            // Insert HTML into the DOM using insertAdjacentHTML, new items will always be added at end of list
+            document.querySelector(element).insertAdjacentHTML("beforeend",newHtml);
+
         }
+
     }
 
 })();
@@ -159,14 +208,16 @@ let controller = (function (budgetControl, UIControl) {
     let controllAddItem = function name(params) {
 
         // GET FIELD INPUT DATA
-
         let input = UIController.getinput();
         console.log(input);
 
         // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
-        budgetController.addItem(input.type, input.description, input.value);
+        // Hold item in @newItem so we can show the item to UI next
+        newItem = budgetController.addItem(input.type, input.description, input.value);
+        console.log(newItem);
 
         // ADD THE ITEM TO THE UI
+        UIController.addListItem(newItem,input.type);
 
         // CALCULATE THE BUDGET
 
