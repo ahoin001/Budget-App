@@ -120,6 +120,25 @@ let UIController = (function () {
 
         },
 
+        clearFields: function () {
+          
+            let fields, fieldsArray;
+            
+            // fields will be List (not array) 
+            fields = document.querySelectorAll(DOMStrings.inputDescription + ', '+ DOMStrings.inputValue)
+            
+            // Convert fields into Array
+            fieldsArray = Array.prototype.slice.call(fields);
+
+            // Goes through array clearing each field value
+            fieldsArray.forEach((current, index, array) => {
+                current.value = "";
+            });
+
+            // Selects first element, and places user cursor back here for next item to be typed
+            fieldsArray[0].focus();
+        },
+
         // Allows to call DOMStrings in public space if needed 
         getDOMStrings: function () {
             return DOMStrings
@@ -218,6 +237,9 @@ let controller = (function (budgetControl, UIControl) {
 
         // ADD THE ITEM TO THE UI
         UIController.addListItem(newItem,input.type);
+
+        // ClearFields
+        UIController.clearFields();
 
         // CALCULATE THE BUDGET
 
