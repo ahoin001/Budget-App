@@ -128,7 +128,7 @@ let UIController = (function () {
         // Adds item to dom
         addListItem: function (obj, type) {
 
-            // Create HTML string with placeholder text (surrounded data we will replace is in '%dataToReplace%')
+            // Create HTML string with placeholder text , newHTML will have updated text, element will be target on DOM
             let html, newHtml, element;
 
             if (type === 'inc') {
