@@ -106,7 +106,9 @@ let UIController = (function () {
 
                 type: document.querySelector(DOMStrings.inputType).value,
                 description: document.querySelector(DOMStrings.inputDescription).value,
-                value: document.querySelector(DOMStrings.inputValue).value
+                
+                // Convert The input from string to Number 
+                value: parseFloat(document.querySelector(DOMStrings.inputValue).value)
 
                 /********************************************************
                 IF WE DO IT THIS WAY, WE WOULD HAVE TO CHANGE ALL CLASS NAMES WHENEVER A CHANGE IS MADE TO A CLASS IN HTML
