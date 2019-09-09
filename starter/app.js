@@ -121,12 +121,12 @@ let UIController = (function () {
         },
 
         clearFields: function () {
-          
+
             let fields, fieldsArray;
-            
+
             // fields will be List (not array) 
-            fields = document.querySelectorAll(DOMStrings.inputDescription + ', '+ DOMStrings.inputValue)
-            
+            fields = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue)
+
             // Convert fields into Array
             fieldsArray = Array.prototype.slice.call(fields);
 
@@ -189,7 +189,7 @@ let UIController = (function () {
             newHtml = html.replace('%value%', obj.value);
 
             // Insert HTML into the DOM using insertAdjacentHTML, new items will always be added at end of list
-            document.querySelector(element).insertAdjacentHTML("beforeend",newHtml);
+            document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
 
         }
 
@@ -223,6 +223,18 @@ let controller = (function (budgetControl, UIControl) {
 
         })
     }
+    
+    let updateBudget = function() {
+        
+        // 1. Calculate budget
+
+        
+        // 2. Return the budget
+
+
+        // 3. Display the budget on the UI
+
+    }
 
     let controllAddItem = function name(params) {
 
@@ -236,7 +248,7 @@ let controller = (function (budgetControl, UIControl) {
         console.log(newItem);
 
         // ADD THE ITEM TO THE UI
-        UIController.addListItem(newItem,input.type);
+        UIController.addListItem(newItem, input.type);
 
         // ClearFields
         UIController.clearFields();
