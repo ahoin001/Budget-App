@@ -106,7 +106,7 @@ let UIController = (function () {
 
                 type: document.querySelector(DOMStrings.inputType).value,
                 description: document.querySelector(DOMStrings.inputDescription).value,
-                
+
                 // Convert The input from string to Number 
                 value: parseFloat(document.querySelector(DOMStrings.inputValue).value)
 
@@ -225,12 +225,12 @@ let controller = (function (budgetControl, UIControl) {
 
         })
     }
-    
-    let updateBudget = function() {
-        
+
+    let updateBudget = function () {
+
         // 1. Calculate budget
 
-        
+
         // 2. Return the budget
 
 
@@ -244,16 +244,25 @@ let controller = (function (budgetControl, UIControl) {
         let input = UIController.getinput();
         console.log(input);
 
-        // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
-        // Hold item in @newItem so we can show the item to UI next
-        newItem = budgetController.addItem(input.type, input.description, input.value);
-        console.log(newItem);
+        // If user entered something in Description input, and they entered a Number in value input that is greater than 0
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
 
-        // ADD THE ITEM TO THE UI
-        UIController.addListItem(newItem, input.type);
+            // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
+            // Hold item in @newItem so we can show the item to UI next
+            newItem = budgetController.addItem(input.type, input.description, input.value);
+            console.log(newItem);
 
-        // ClearFields
-        UIController.clearFields();
+            // ADD THE ITEM TO THE UI
+            UIController.addListItem(newItem, input.type);
+
+            // ClearFields
+            UIController.clearFields();
+        
+        } else {
+
+        }
+
+
 
         // CALCULATE THE BUDGET
 
