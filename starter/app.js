@@ -29,7 +29,7 @@ let budgetController = (function () {
         data.totals[type] = sum;
 
     }
-    
+
 
     // Data Structures that will contain all expenses and incomes, and total expenses and total incomes
     let data = {
@@ -42,9 +42,11 @@ let budgetController = (function () {
             exp: 0,
             inc: 0
         },
-        budget: 0
-    
-}
+        budget: 0,
+        // Set to minus -1, -1 is like saying nonexsistant 
+        perecentage: -1
+
+    }
 
     // Public methods we can use
     return {
@@ -96,12 +98,20 @@ let budgetController = (function () {
             // Calculate the budget: income - expenses (Money leftover)
             data.budget = data.totals.inc - data.totals.exp;
 
-            // Calculate the % of income that we spent
-
+            // Calculate the % of income that we spent ( exp = 50 inc = 100, 50/100 = .50 * 100 = 50%)
+            data.perecentage = Math.round((data.totals.exp / data.totals.inc) * 100);
 
         },
-        testing: function () {
-            console.log(data);
+        getBudgetData: function () {
+            return {
+
+                budget: data.budget,
+                totalIncome: data.totals.inc,
+                totalExpenses: data.totals.exp,
+                perecentage: data.perecentage
+
+            }
+
         }
     };
 })();
@@ -261,10 +271,10 @@ let controller = (function (budgetControl, UIControl) {
     let updateBudget = function () {
 
         // 1. Calculate budget
-
+        budgetController.calculateBudget();
 
         // 2. Return the budget
-
+        let budget = budgetController.getBudgetData();
 
         // 3. Display the budget on the UI
 
