@@ -32,6 +32,7 @@ let budgetController = (function () {
 
 
     // Data Structures that will contain all expenses and incomes, and total expenses and total incomes
+    // budget and perecentage
     let data = {
 
         allItems: {
@@ -268,6 +269,7 @@ let controller = (function (budgetControl, UIControl) {
         })
     }
 
+    // This method is called after every update 
     let updateBudget = function () {
 
         // 1. Calculate budget
@@ -277,7 +279,7 @@ let controller = (function (budgetControl, UIControl) {
         let budget = budgetController.getBudgetData();
 
         // 3. Display the budget on the UI
-
+        console.log(budget);
     }
 
     let controllAddItem = function name(params) {
@@ -299,6 +301,9 @@ let controller = (function (budgetControl, UIControl) {
 
             // ClearFields
             UIController.clearFields();
+
+            // Calculate and Update the budget
+            updateBudget();
 
         } else {
 
