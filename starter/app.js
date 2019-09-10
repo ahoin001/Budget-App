@@ -99,10 +99,18 @@ let budgetController = (function () {
             // Calculate the budget: income - expenses (Money leftover)
             data.budget = data.totals.inc - data.totals.exp;
 
-            // Calculate the % of income that we spent ( exp = 50 inc = 100, 50/100 = .50 * 100 = 50%)
-            data.perecentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+            if (data.totals.inc > 0) {
+
+                // Calculate the % of income that we spent ( exp = 50 inc = 100, 50/100 = .50 * 100 = 50%)
+                data.perecentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+
+            }else
+            {
+                data.perecentage = -1; 
+            }
 
         },
+        // Data regarding Budget
         getBudgetData: function () {
             return {
 
@@ -133,7 +141,11 @@ let UIController = (function () {
         inputValue: '.add__value',
         inputAddButton: '.add__btn',
         incomeContainer: '.income__list',
-        expenseContainer: '.expenses__list'
+        expenseContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expenseLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__income--percentage'
 
     }
 
@@ -235,6 +247,12 @@ let UIController = (function () {
 
             // Insert HTML into the DOM using insertAdjacentHTML, new items will always be added at end of list
             document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+
+        },
+
+        displayBudget: function (obj) {
+            
+
 
         }
 
