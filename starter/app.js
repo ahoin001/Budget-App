@@ -14,6 +14,23 @@ let budgetController = (function () {
         this.value = value;
     };
 
+    let calculateTotal = function (type) {
+
+        let sum = 0;
+
+        // Go through either income or expense array and then add them all up
+        data.allItems[type].forEach(current => {
+
+            // Sum starts at 0, then is added by each value of income or expense
+            sum = sum + current.value;
+        });
+
+        // Add the total into the proper type
+        data.totals[type] = sum;
+
+    }
+    
+
     // Data Structures that will contain all expenses and incomes, and total expenses and total incomes
     let data = {
 
@@ -24,9 +41,10 @@ let budgetController = (function () {
         totals: {
             exp: 0,
             inc: 0
-        }
-
-    }
+        },
+        budget: 0
+    
+}
 
     // Public methods we can use
     return {
@@ -66,6 +84,20 @@ let budgetController = (function () {
             data.allItems[type].push(newItem);
 
             return newItem;
+
+        },
+
+        calculateBudget: function () {
+
+            // Calculate total income and expenses
+            calculateTotal('inc');
+            calculateTotal('exp');
+
+            // Calculate the budget: income - expenses (Money leftover)
+            data.budget = data.totals.inc - data.totals.exp;
+
+            // Calculate the % of income that we spent
+
 
         },
         testing: function () {
@@ -257,7 +289,7 @@ let controller = (function (budgetControl, UIControl) {
 
             // ClearFields
             UIController.clearFields();
-        
+
         } else {
 
         }
