@@ -143,7 +143,7 @@ let UIController = (function () {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expenseLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__income--percentage'
+        percentageLabel: '.budget__expenses--percentage'
 
     }
 
@@ -253,13 +253,25 @@ let UIController = (function () {
             document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget;
             document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalIncome;
             document.querySelector(DOMStrings.expenseLabel).textContent = obj.totalExpenses;
-            document.querySelector(DOMStrings.percentageLabel).textContent = obj.perecentage;
+
 
             // The data above is gathered from this budget object we are planning to pass in as obj 
             // budget: data.budget,
             // totalIncome: data.totals.inc,
             // totalExpenses: data.totals.exp,
             // perecentage: data.perecentage
+
+            if (obj.perecentage > 0) {
+
+                // If the percentage is positive, show it in DOM
+                document.querySelector(DOMStrings.percentageLabel).textContent = obj.perecentage + '%';
+
+            } else {
+
+                // If percentage is 0 or negative, then don't display anything
+                document.querySelector(DOMStrings.percentageLabel).textContent = '---'
+
+            }
 
         }
 
@@ -337,12 +349,6 @@ let controller = (function (budgetControl, UIControl) {
 
         }
 
-
-
-        // CALCULATE THE BUDGET
-
-        // DISPLAY THE BUDGET ON THE UI
-
     }
 
     // Expose a method that will call pur setup event listener function
@@ -351,6 +357,16 @@ let controller = (function (budgetControl, UIControl) {
         init: function () {
             console.log('App has started');
             setupEventListeners();
+
+            // On first excecution , we pass a blank version of the budget item so starting UI is at 0
+            UIController.displayBudget({
+
+                budget: 0,
+                totalIncome: 0,
+                totalExpenses: 0,
+                perecentage: 0
+            
+            });
         }
 
     }
