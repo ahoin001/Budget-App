@@ -14,23 +14,6 @@ let budgetController = (function () {
         this.value = value;
     };
 
-    let calculateTotal = function (type) {
-
-        let sum = 0;
-
-        // Go through either income or expense array and then add them all up
-        data.allItems[type].forEach(current => {
-
-            // Sum starts at 0, then is added by each value of income or expense
-            sum = sum + current.value;
-        });
-
-        // Add the total into the proper type
-        data.totals[type] = sum;
-
-    }
-
-
     // Data Structures that will contain all expenses and incomes, and total expenses and total incomes
     // budget and perecentage
     let data = {
@@ -46,6 +29,22 @@ let budgetController = (function () {
         budget: 0,
         // Set to minus -1, -1 is like saying nonexsistant 
         perecentage: -1
+
+    }
+
+    let calculateTotal = function (type) {
+
+        let sum = 0;
+
+        // Go through either income or expense array and then add them all up
+        data.allItems[type].forEach(current => {
+
+            // Sum starts at 0, then is added by each value of income or expense
+            sum = sum + current.value;
+        });
+
+        // Add the total into the proper type
+        data.totals[type] = sum;
 
     }
 
@@ -104,9 +103,8 @@ let budgetController = (function () {
                 // Calculate the % of income that we spent ( exp = 50 inc = 100, 50/100 = .50 * 100 = 50%)
                 data.perecentage = Math.round((data.totals.exp / data.totals.inc) * 100);
 
-            }else
-            {
-                data.perecentage = -1; 
+            } else {
+                data.perecentage = -1;
             }
 
         },
@@ -251,8 +249,17 @@ let UIController = (function () {
         },
 
         displayBudget: function (obj) {
-            
 
+            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget;
+            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalIncome;
+            document.querySelector(DOMStrings.expenseLabel).textContent = obj.totalExpenses;
+            document.querySelector(DOMStrings.percentageLabel).textContent = obj.perecentage;
+
+            // The data above is gathered from this budget object we are planning to pass in as obj 
+            // budget: data.budget,
+            // totalIncome: data.totals.inc,
+            // totalExpenses: data.totals.exp,
+            // perecentage: data.perecentage
 
         }
 
@@ -298,6 +305,7 @@ let controller = (function (budgetControl, UIControl) {
 
         // 3. Display the budget on the UI
         console.log(budget);
+        UIController.displayBudget(budget);
     }
 
     let controllAddItem = function name(params) {
@@ -322,6 +330,8 @@ let controller = (function (budgetControl, UIControl) {
 
             // Calculate and Update the budget
             updateBudget();
+
+            // Displa
 
         } else {
 
