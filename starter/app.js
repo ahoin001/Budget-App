@@ -56,15 +56,17 @@ let budgetController = (function () {
 
             let newItem, ID;
 
+            // To Create Unique ID
             if (data.allItems[type].length > 0) {
 
-                // create new ID
+                // create new object 
                 // The next ID created will alays be whatever the value of last ID is plus 1 So that every ID is unique and increase by 1
                 // Selects last inc/exp instance in the array, gets the value of its ID, and then adds 1
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
 
             }
             else {
+                // if list is empty, create a object with id 0
                 ID = 0;
             }
 
@@ -212,12 +214,14 @@ let UIController = (function () {
                 // The name of element we will target in DOM that we take from our DOMStrings object, so we can easily change classes
                 element = DOMStrings.incomeContainer;
 
-                html = `<div class="item clearfix" id="income-%id%">
+                html = `<div class="item clearfix" id="income-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value">+%value%</div>
+                                <div class="item__value">+${obj.value}</div>
                                 <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                    <button class="item__delete--btn">
+                                        <i class="ion-ios-close-outline"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>`
@@ -226,26 +230,32 @@ let UIController = (function () {
 
                 element = DOMStrings.expenseContainer;
 
-                html = `<div class="item clearfix" id = "expense-%id%" >
+                html = `<div class="item clearfix" id = "expense-${obj.id}" >
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value">- %value%</div>
+                                <div class="item__value">- ${obj.value}</div>
                                 <div class="item__percentage">21%</div>
                                 <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                    <button class="item__delete--btn">
+                                        <i class="ion-ios-close-outline"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div >`
 
             }
 
+            // TODO Why didn't this work?
             // Replace placeholder text with actual data from object, newhtml equals the original string with the values replaced
-            newHtml = html.replace('%id%', obj.id);
-            newHtml = html.replace('%desc%', obj.description);
-            newHtml = html.replace('%value%', obj.value);
+            // newHtml = html.replace('%id%', obj.id);
+            // newHtml = html.replace('%desc%', obj.description);
+            // newHtml = html.replace('%value%', obj.value);
 
             // Insert HTML into the DOM using insertAdjacentHTML, new items will always be added at end of list
-            document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+            // document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+
+            // Insert HTML into the DOM using insertAdjacentHTML, new items will always be added at end of list
+            document.querySelector(element).insertAdjacentHTML("beforeend", html);
 
         },
 
@@ -306,7 +316,7 @@ let controller = (function (budgetControl, UIControl) {
 
         });
 
-        document.querySelector('.container')
+        document.querySelector(DOMStrings.container).addEventListener('click', controlDeleteItem)
 
 
     }
@@ -356,6 +366,12 @@ let controller = (function (budgetControl, UIControl) {
 
     }
 
+    const controlDeleteItem = (event) => {
+
+        console.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+    }
+
     // Expose a method that will call pur setup event listener function
     return {
 
@@ -370,7 +386,7 @@ let controller = (function (budgetControl, UIControl) {
                 totalIncome: 0,
                 totalExpenses: 0,
                 perecentage: 0
-            
+
             });
         }
 
