@@ -294,7 +294,7 @@ let controller = (function (budgetControl, UIControl) {
         // Event is object with information of our event 
         document.addEventListener('keypress', function (event) {
 
-            // To see event properties
+            // To see event properties/ try to find out more about event
             // console.log(event);
 
             // Enter key was pressed
