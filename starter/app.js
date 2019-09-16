@@ -48,7 +48,7 @@ let budgetController = (function () {
 
     }
 
-    // Public methods we can use
+    // Public methods we can use everywhere
     return {
 
         // Recieves type desc and value
@@ -91,6 +91,32 @@ let budgetController = (function () {
 
         },
 
+        deleteItem: function (type,id) {
+            
+            let ids, index;
+
+            // current will be each item in array from the array with type we provide
+            // Map will do something to each element and return it as a new array 
+            // Our new array will have all the id's
+            ids = data.allItems[type].map(function (current) {
+                
+                return current.id;
+
+            });
+
+            // Check if the id we want to delete is in the array of id's ny getting its index
+            index = ids.indexOf(id);
+
+            // If the id is not in the array (-1 = not found in array)
+            if (index !== -1) 
+            {
+                // Splice will remove 1 element, starting at the index we provide
+                // We remove the item with the id we wanted to delete from the data structure
+                data.allItems[type].splice(index,1);
+            }
+
+        },
+
         calculateBudget: function () {
 
             // Calculate total income and expenses
@@ -121,6 +147,10 @@ let budgetController = (function () {
 
             }
 
+        },
+
+        testing: function () {
+            return data;
         }
     };
 })();
@@ -368,7 +398,30 @@ let controller = (function (budgetControl, UIControl) {
 
     const controlDeleteItem = (event) => {
 
-        console.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
+        let itemID , splitID, type, ID;
+
+        // id will equal the id of list item in list ( after deleete button is pressed)
+        itemID = (event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+        if (itemID) {
+            
+            // inc-1 will be ['inc','1'] , split method will split at the indicated string, in this case '-'
+            splitID = itemID.split('-');
+
+            type = splitID[0];
+
+            // Convert String we got from split array strings so that we can compare it to other integers later on
+            ID = parseInt(splitID[1]);
+
+            // 1 Delete Item From Data Structure
+            budgetController.deleteItem(type,ID);
+
+            // 2. Delete Item from UI 
+
+
+            // 3. Update Budegt and Show New Budget on UI
+
+        }
 
     }
 
