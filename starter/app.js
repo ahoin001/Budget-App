@@ -143,7 +143,8 @@ let UIController = (function () {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expenseLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        container: '.container'
 
     }
 
@@ -282,7 +283,7 @@ let UIController = (function () {
 // GLOBAL APP CONTROLLER: We will tell other modules what to do from here
 let controller = (function (budgetControl, UIControl) {
 
-    // 
+    // Set up events to be triggered on stage
     let setupEventListeners = function () {
 
         // Allows us to access domstrings from UIController 
@@ -303,7 +304,11 @@ let controller = (function (budgetControl, UIControl) {
                 controllAddItem();
             }
 
-        })
+        });
+
+        document.querySelector('.container')
+
+
     }
 
     // This method is called after every update 
