@@ -214,7 +214,7 @@ let UIController = (function () {
                 // The name of element we will target in DOM that we take from our DOMStrings object, so we can easily change classes
                 element = DOMStrings.incomeContainer;
 
-                html = `<div class="item clearfix" id="income-${obj.id}">
+                html = `<div class="item clearfix" id="inc-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
                                 <div class="item__value">+${obj.value}</div>
@@ -230,7 +230,7 @@ let UIController = (function () {
 
                 element = DOMStrings.expenseContainer;
 
-                html = `<div class="item clearfix" id = "expense-${obj.id}" >
+                html = `<div class="item clearfix" id = "exp-${obj.id}" >
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
                                 <div class="item__value">- ${obj.value}</div>
