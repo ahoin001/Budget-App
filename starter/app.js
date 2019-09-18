@@ -97,7 +97,7 @@ let budgetController = (function () {
 
             // current will be each item in array from the array with type we provide
             // Map will do something to each element and return it as a new array 
-            // Our new array will have all the id's
+            // We are returning all the ids in the original array to our new array
             ids = data.allItems[type].map(function (current) {
                 
                 return current.id;
