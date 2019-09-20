@@ -222,7 +222,8 @@ let UIController = (function () {
         incomeLabel: '.budget__income--value',
         expenseLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensePercentageLabel: '.item__percentage'
 
     }
 
@@ -374,7 +375,44 @@ let UIController = (function () {
 
             }
 
+        },
+
+        displayPercentages : function (percentages) {
+            
+            // Will return a list of nodes , not an array
+            let fields = document.querySelectorAll(DOMStrings.expensePercentageLabel);
+
+            // Loop through all the nodes and change the expensepercentagelabel property on them
+            let nodeListForEach = function (list,callback) {
+                
+                // Iterates through node list
+                for (let i = 0; i < list.length; i++) {
+                    
+                    // A function that will do something to each node
+                    callback(list[i],i);
+                    
+                }
+            }
+
+            nodeListForEach(fields, function (current, index) {
+                
+                // Current is the current item in list, percenindex will be the value we get from list of %'s
+                if (percentages[index] > 0) {
+                
+                    // On the current node , give it the percent matching it from the array of %'s
+                    current.textContent = percentages[index] + '%';
+                
+                }
+                else {
+                
+                    current.textContent = percentages[index] + '%';
+                
+                }
+
+            })
+
         }
+        
 
     }
 
