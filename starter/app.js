@@ -11,12 +11,14 @@ let budgetController = (function () {
     };
 
     // How to add method to function classes
-    Expense.prototype.calcPercentage = function (totalIncome) {
+    Expense.prototype.calculatePercentage = function (totalIncome) {
 
         if (totalIncome > 0) {
+            console.log(`Ran the if`);
             this.percentage = Math.round((this.value / totalIncome) * 100);
         }
         else {
+            console.log(`Ran the else`);
             this.percentage = -1;
         }
 
@@ -161,8 +163,8 @@ let budgetController = (function () {
             
             data.allItems.exp.forEach(function (current) {
 
-                // Calculates % for each expense item  in list
-                budgetController.calculatePercentages(current);
+                // Eacch expense item will call calculate expense method 
+                current.calculatePercentage(data.totals.inc);
 
             })
 
@@ -426,12 +428,13 @@ let controller = (function (budgetControl, UIControl) {
     let updatePercentages = function () {
 
         // Calculate Perecentages
-
+        budgetController.calculatePercentages();
 
         // Read them from budget controller
-
+        let percentages = budgetController.getPercentages();
 
         // Update UI with new percentages
+        console.log(percentages);
 
     }
 
