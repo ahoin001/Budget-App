@@ -150,7 +150,7 @@ let budgetController = (function () {
         },
 
         testing: function () {
-            return data;
+            return console.log('The Data'.data);
         }
     };
 })();
@@ -348,7 +348,6 @@ let controller = (function (budgetControl, UIControl) {
 
         document.querySelector(DOMStrings.container).addEventListener('click', controlDeleteItem)
 
-
     }
 
     // This method is called after every update 
@@ -361,7 +360,7 @@ let controller = (function (budgetControl, UIControl) {
         let budget = budgetController.getBudgetData();
 
         // 3. Display the budget on the UI
-        console.log(budget);
+        console.log('The Budget',budget);
         UIController.displayBudget(budget);
     }
 
@@ -369,7 +368,7 @@ let controller = (function (budgetControl, UIControl) {
 
         // GET FIELD INPUT DATA
         let input = UIController.getinput();
-        console.log(input);
+        console.log('input',input);
 
         // If user entered something in Description input, and they entered a Number in value input that is greater than 0
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
@@ -377,7 +376,7 @@ let controller = (function (budgetControl, UIControl) {
             // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
             // Hold item in @newItem so we can show the item to UI next
             newItem = budgetController.addItem(input.type, input.description, input.value);
-            console.log(newItem);
+            console.log('Create Item',newItem);
 
             // ADD THE ITEM TO THE UI
             UIController.addListItem(newItem, input.type);
