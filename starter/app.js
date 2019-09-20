@@ -6,7 +6,28 @@ let budgetController = (function () {
         this.id = id;
         this.description = description;
         this.value = value;
+        // -1 same as undefined
+        this.percentage = -1;
     };
+
+    // How to add method to function classes
+    Expense.prototype.calcPercentage = function (totalIncome) {
+
+        if (totalIncome > 0) {
+            this.percentage = Math.round((this.value / totalIncome) * 100);
+        }
+        else {
+            this.percentage = -1;
+        }
+
+    }
+
+    // Returns current percentage of item
+    Expense.prototype.getPercentage = function () {
+
+       return this.percentage;
+
+    }
 
     let Income = function (id, description, value) {
         this.id = id;
@@ -91,15 +112,15 @@ let budgetController = (function () {
 
         },
 
-        deleteItem: function (type,id) {
-            
+        deleteItem: function (type, id) {
+
             let ids, index;
 
             // current will be each item in array from the array with type we provide
             // Map will do something to each element and return it as a new array 
             // We are returning all the ids in the original array to our new array
             ids = data.allItems[type].map(function (current) {
-                
+
                 return current.id;
 
             });
@@ -108,11 +129,10 @@ let budgetController = (function () {
             index = ids.indexOf(id);
 
             // If the id is not in the array (-1 = not found in array)
-            if (index !== -1) 
-            {
+            if (index !== -1) {
                 // Splice will remove 1 element, starting at the index we provide
                 // We remove the item with the id we wanted to delete from the data structure
-                data.allItems[type].splice(index,1);
+                data.allItems[type].splice(index, 1);
             }
 
         },
@@ -136,6 +156,30 @@ let budgetController = (function () {
             }
 
         },
+
+        calculatePercentages: function () {
+            
+            data.allItems.exp.forEach(function (current) {
+
+                // Calculates % for each expense item  in list
+                budgetController.calculatePercentages(current);
+
+            })
+
+        },
+
+        getPercentages: function () {
+            
+            // Goes through array of expense items and returns their percentages in a new array
+            let allPercentages = data.allItems.exp.map(function (current) {
+                return current.getPercentage();
+            })
+
+            // getPercentages then returns the new array that has all the percents
+            return allPercentages;
+
+        },
+
         // Data regarding Budget
         getBudgetData: function () {
             return {
@@ -150,7 +194,7 @@ let budgetController = (function () {
         },
 
         testing: function () {
-            return console.log('The Data',data);
+            return console.log('The Data', data);
         }
     };
 })();
@@ -231,11 +275,11 @@ let UIController = (function () {
         },
 
         deleteListItem: function (idOfTarget) {
-            
+
             // Get a reference to the item we want to delete
             let listItemToDelete = document.getElementById(idOfTarget);
             console.log(listItemToDelete);
-            
+
             // Find the items parent node, then have it remove the child that we want to delete (itself in this case)
             listItemToDelete.parentNode.removeChild(listItemToDelete);
 
@@ -374,8 +418,20 @@ let controller = (function (budgetControl, UIControl) {
         let budget = budgetController.getBudgetData();
 
         // 3. Display the budget on the UI
-        console.log('The Budget',budget);
+        console.log('The Budget', budget);
         UIController.displayBudget(budget);
+
+    }
+
+    let updatePercentages = function () {
+
+        // Calculate Perecentages
+
+
+        // Read them from budget controller
+
+
+        // Update UI with new percentages
 
     }
 
@@ -383,7 +439,7 @@ let controller = (function (budgetControl, UIControl) {
 
         // GET FIELD INPUT DATA
         let input = UIController.getinput();
-        console.log('input',input);
+        console.log('input', input);
 
         // If user entered something in Description input, and they entered a Number in value input that is greater than 0
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
@@ -391,7 +447,7 @@ let controller = (function (budgetControl, UIControl) {
             // ADD THE ITEM TO THE BUDGET CONTROLLER USING USER INPUT FROM UICONTROLLER
             // Hold item in @newItem so we can show the item to UI next
             newItem = budgetController.addItem(input.type, input.description, input.value);
-            console.log('Create Item',newItem);
+            console.log('Create Item', newItem);
 
             // ADD THE ITEM TO THE UI
             UIController.addListItem(newItem, input.type);
@@ -402,9 +458,8 @@ let controller = (function (budgetControl, UIControl) {
             // Calculate and Update the budget
             updateBudget();
 
-            
-
-        } else {
+            // Calculate and update %'s
+            updatePercentages();
 
         }
 
@@ -412,14 +467,14 @@ let controller = (function (budgetControl, UIControl) {
 
     const controlDeleteItem = (event) => {
 
-        let itemID , splitID, type, ID;
+        let itemID, splitID, type, ID;
 
         // id will equal the id of list item in list ( after deleete button is pressed)
         itemID = (event.target.parentNode.parentNode.parentNode.parentNode.id);
         console.log(itemID);
 
         if (itemID) {
-            
+
             // inc-1 will be ['inc','1'] , split method will split at the indicated string, in this case '-'
             splitID = itemID.split('-');
 
@@ -427,17 +482,21 @@ let controller = (function (budgetControl, UIControl) {
 
             // Convert String we got from split array strings so that we can compare it to other integers later on
             ID = parseInt(splitID[1]);
-            console.log('ID',ID);
+            console.log('ID', ID);
 
             // 1 Delete Item From Data Structure
-            budgetController.deleteItem(type,ID);
+            budgetController.deleteItem(type, ID);
 
             // 2. Delete Item from UI 
             // Gets ID of item to delete then deletes it
             UIController.deleteListItem(itemID);
 
             // 3. Update Budegt and Show New Budget on UI
-            // updateBudget();
+            updateBudget();
+
+
+            // Calculate and update %'s
+            updatePercentages();
 
         }
 
@@ -448,6 +507,7 @@ let controller = (function (budgetControl, UIControl) {
 
         init: function () {
             console.log('App has started');
+            // When page is loaded, listeners are set
             setupEventListeners();
 
             // On first excecution , we pass a blank version of the budget item so starting UI is at 0
