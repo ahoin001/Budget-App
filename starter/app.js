@@ -190,6 +190,9 @@ let UIController = (function () {
 
             return {
 
+                /********************************************************
+                  Pass the user inputs as an object so we can access theem easier
+                *********************************************************/
                 type: document.querySelector(DOMStrings.inputType).value,
                 description: document.querySelector(DOMStrings.inputDescription).value,
 
@@ -225,6 +228,17 @@ let UIController = (function () {
 
             // Selects first element, and places user cursor back here for next item to be typed
             fieldsArray[0].focus();
+        },
+
+        deleteListItem: function (idOfTarget) {
+            
+            // Get a reference to the item we want to delete
+            let listItemToDelete = document.getElementById(idOfTarget);
+            console.log(listItemToDelete);
+            
+            // Find the items parent node, then have it remove the child that we want to delete (itself in this case)
+            listItemToDelete.parentNode.removeChild(listItemToDelete);
+
         },
 
         // Allows to call DOMStrings in public space if needed 
@@ -362,6 +376,7 @@ let controller = (function (budgetControl, UIControl) {
         // 3. Display the budget on the UI
         console.log('The Budget',budget);
         UIController.displayBudget(budget);
+
     }
 
     let controllAddItem = function name(params) {
@@ -387,7 +402,7 @@ let controller = (function (budgetControl, UIControl) {
             // Calculate and Update the budget
             updateBudget();
 
-            // Displa
+            
 
         } else {
 
@@ -401,6 +416,7 @@ let controller = (function (budgetControl, UIControl) {
 
         // id will equal the id of list item in list ( after deleete button is pressed)
         itemID = (event.target.parentNode.parentNode.parentNode.parentNode.id);
+        console.log(itemID);
 
         if (itemID) {
             
@@ -411,14 +427,17 @@ let controller = (function (budgetControl, UIControl) {
 
             // Convert String we got from split array strings so that we can compare it to other integers later on
             ID = parseInt(splitID[1]);
+            console.log('ID',ID);
 
             // 1 Delete Item From Data Structure
             budgetController.deleteItem(type,ID);
 
             // 2. Delete Item from UI 
-
+            // Gets ID of item to delete then deletes it
+            UIController.deleteListItem(itemID);
 
             // 3. Update Budegt and Show New Budget on UI
+            // updateBudget();
 
         }
 
