@@ -150,7 +150,7 @@ let budgetController = (function () {
         },
 
         testing: function () {
-            return console.log('The Data'.data);
+            return console.log('The Data',data);
         }
     };
 })();
