@@ -205,7 +205,7 @@ let budgetController = (function () {
 let UIController = (function () {
 
     /********************************************************
-            PRIVATE VAR AND DATA
+            PRIVATE VARIABLES AND DATA
     *********************************************************/
 
     // If class names were changed in html, we would need to go through all our DOM strings and change them accordingly
@@ -226,6 +226,44 @@ let UIController = (function () {
         expensePercentageLabel: '.item__percentage'
 
     }
+
+    let formatNumber = function (num,type) {
+           
+        let numSplit, int, dec;
+
+        /* 
+        + or - before number
+        exacly 2 decimal points
+        comma seperating thousands  
+        */
+
+        // remove sign from number 
+        num = Math.abs(num);
+
+        // Always have 2 decimals spaces on right
+        // 2000 = 2000.00 
+        num = num.toFixed(2);
+
+        // Split number at decimal point 
+        numSplit = num.split('.');
+
+        // number left of decimal point
+        int = numSplit[0];
+
+        // If the integer is more than 3 digits
+        if (int.length > 3) {
+        
+            //  1st substr returns the numbers left of comma 2nd substr returns the numbers after comma
+            int = int.substr(0,int.length - 3) + ',' + int.substr(int.length - 3,3); //input 2310,output 2,310
+        
+        }
+
+        dec = numSplit[1];
+
+        // Return sign depending on type, then concatenate integer and decimal part of number from above
+        return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+
+    };
 
     // This object that is returned will have access to the outer function, so DOMStrings is private unless 
     // called with getInput mehthod
@@ -308,7 +346,7 @@ let UIController = (function () {
                 html = `<div class="item clearfix" id="inc-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value">+${obj.value}</div>
+                                <div class="item__value">${formatNumber(obj.value,type)}</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn">
                                         <i class="ion-ios-close-outline"></i>
@@ -324,7 +362,7 @@ let UIController = (function () {
                 html = `<div class="item clearfix" id = "exp-${obj.id}" >
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value">- ${obj.value}</div>
+                                <div class="item__value"> ${formatNumber(obj.value,type)}</div>
                                 <div class="item__percentage">21%</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn">
@@ -472,6 +510,7 @@ let controller = (function (budgetControl, UIControl) {
         let percentages = budgetController.getPercentages();
 
         // Update UI with new percentages
+        UIController.displayPercentages(percentages);
         console.log(percentages);
 
     }
