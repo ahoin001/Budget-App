@@ -374,7 +374,7 @@ let UIController = (function () {
 
             }
 
-            // TODO Why didn't this work?
+            // TODO Why didn't this work? Look it Up Tomorrow
             // Replace placeholder text with actual data from object, newhtml equals the original string with the values replaced
             // newHtml = html.replace('%id%', obj.id);
             // newHtml = html.replace('%desc%', obj.description);
@@ -390,9 +390,12 @@ let UIController = (function () {
 
         displayBudget: function (obj) {
 
-            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget;
-            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalIncome;
-            document.querySelector(DOMStrings.expenseLabel).textContent = obj.totalExpenses;
+            let type;
+            obj.budget > 0 ? type = 'inc' : type = 'exp'
+        
+            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget,type) ;
+            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalIncome,'inc');
+            document.querySelector(DOMStrings.expenseLabel).textContent = formatNumber(obj.totalExpenses,'exp');
 
 
             // The data above is gathered from this budget object we are planning to pass in as obj 
