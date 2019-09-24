@@ -223,7 +223,8 @@ let UIController = (function () {
         expenseLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensePercentageLabel: '.item__percentage'
+        expensePercentageLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
 
     }
 
@@ -418,6 +419,24 @@ let UIController = (function () {
 
         },
 
+        displayDate : function () {
+            let now, year, month, months;
+
+            // Date is current time ( Year month day)
+            now = new Date();
+
+            year = now.getFullYear();
+
+            // Array is so that we can use 
+            months = ['Janurary','Feburary','March','April', 'May',
+                      'June','July','August','September','October','November','December']
+
+            month = now.getMonth();
+            
+            document.querySelector(DOMStrings.dateLabel).textContent = months[month] + ' ' + year;
+
+        },
+
         displayPercentages : function (percentages) {
             
             // Will return a list of nodes , not an array
@@ -585,14 +604,16 @@ let controller = (function (budgetControl, UIControl) {
 
     }
 
-    // Expose a method that will call pur setup event listener function
+    // Expose a method that will setup event listener function on start up
     return {
 
         init: function () {
             console.log('App has started');
+
             // When page is loaded, listeners are set
             setupEventListeners();
 
+            UIController.displayDate();
             // On first excecution , we pass a blank version of the budget item so starting UI is at 0
             UIController.displayBudget({
 
