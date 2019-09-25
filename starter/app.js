@@ -560,7 +560,7 @@ let controller = (function (budgetControl, UIControl) {
             // Calculate and Update the budget
             updateBudget();
 
-            // Calculate and update %'s
+            // Calculate and update %'s on top
             updatePercentages();
 
         }
