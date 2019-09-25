@@ -27,7 +27,7 @@ let budgetController = (function () {
     // Returns current percentage of item
     Expense.prototype.getPercentage = function () {
 
-       return this.percentage;
+        return this.percentage;
 
     }
 
@@ -160,7 +160,7 @@ let budgetController = (function () {
         },
 
         calculatePercentages: function () {
-            
+
             data.allItems.exp.forEach(function (current) {
 
                 // Eacch expense item will call calculate expense method 
@@ -171,7 +171,7 @@ let budgetController = (function () {
         },
 
         getPercentages: function () {
-            
+
             // Goes through array of expense items and returns their percentages in a new array
             let allPercentages = data.allItems.exp.map(function (current) {
                 return current.getPercentage();
@@ -228,8 +228,8 @@ let UIController = (function () {
 
     }
 
-    let formatNumber = function (num,type) {
-           
+    let formatNumber = function (num, type) {
+
         let numSplit, int, dec;
 
         /* 
@@ -253,10 +253,10 @@ let UIController = (function () {
 
         // If the integer is more than 3 digits
         if (int.length > 3) {
-        
+
             //  1st substr returns the numbers left of comma 2nd substr returns the numbers after comma
-            int = int.substr(0,int.length - 3) + ',' + int.substr(int.length - 3,3); //input 2310,output 2,310
-        
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3); //input 2310,output 2,310
+
         }
 
         dec = numSplit[1];
@@ -267,14 +267,14 @@ let UIController = (function () {
     };
 
     // Loop through all the nodes and change the expensepercentagelabel property on them
-    let nodeListForEach = function (list,callback) {
-                
+    let nodeListForEach = function (list, callback) {
+
         // Iterates through node list
         for (let i = 0; i < list.length; i++) {
-            
+
             // A function that will do something to each node
-            callback(list[i],i);
-            
+            callback(list[i], i);
+
         }
     }
 
@@ -359,7 +359,7 @@ let UIController = (function () {
                 html = `<div class="item clearfix" id="inc-${obj.id}">
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value">${formatNumber(obj.value,type)}</div>
+                                <div class="item__value">${formatNumber(obj.value, type)}</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn">
                                         <i class="ion-ios-close-outline"></i>
@@ -375,7 +375,7 @@ let UIController = (function () {
                 html = `<div class="item clearfix" id = "exp-${obj.id}" >
                             <div class="item__description">${obj.description}</div>
                             <div class="right clearfix">
-                                <div class="item__value"> ${formatNumber(obj.value,type)}</div>
+                                <div class="item__value"> ${formatNumber(obj.value, type)}</div>
                                 <div class="item__percentage">21%</div>
                                 <div class="item__delete">
                                     <button class="item__delete--btn">
@@ -406,10 +406,10 @@ let UIController = (function () {
 
             let type;
             obj.budget > 0 ? type = 'inc' : type = 'exp'
-        
-            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget,type) ;
-            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalIncome,'inc');
-            document.querySelector(DOMStrings.expenseLabel).textContent = formatNumber(obj.totalExpenses,'exp');
+
+            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(obj.totalIncome, 'inc');
+            document.querySelector(DOMStrings.expenseLabel).textContent = formatNumber(obj.totalExpenses, 'exp');
 
 
             // The data above is gathered from this budget object we are planning to pass in as obj 
@@ -432,7 +432,7 @@ let UIController = (function () {
 
         },
 
-        displayDate : function () {
+        displayDate: function () {
             let now, year, month, months;
 
             // Date is current time ( Year month day)
@@ -441,33 +441,33 @@ let UIController = (function () {
             year = now.getFullYear();
 
             // Array is so that we can use 
-            months = ['Janurary','Feburary','March','April', 'May',
-                      'June','July','August','September','October','November','December']
+            months = ['Janurary', 'Feburary', 'March', 'April', 'May',
+                'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
             month = now.getMonth();
-            
+
             document.querySelector(DOMStrings.dateLabel).textContent = months[month] + ' ' + year;
 
         },
 
-        displayPercentages : function (percentages) {
-            
+        displayPercentages: function (percentages) {
+
             // Will return a list of nodes , not an array
             let fields = document.querySelectorAll(DOMStrings.expensePercentageLabel);
 
             nodeListForEach(fields, function (current, index) {
-                
+
                 // Current is the current item in list, percenindex will be the value we get from list of %'s
                 if (percentages[index] > 0) {
-                
+
                     // On the current node , give it the percent matching it from the array of %'s
                     current.textContent = percentages[index] + '%';
-                
+
                 }
                 else {
-                
+
                     current.textContent = percentages[index] + '%';
-                
+
                 }
 
             })
@@ -481,15 +481,18 @@ let UIController = (function () {
                 DOMStrings.inputType + ',' +
                 DOMStrings.inputDescription + ',' +
                 DOMStrings.inputValue
-            
+
             );
-            
+
             // in each field, toggle red focus class
             nodeListForEach(fields, function (current) {
 
                 current.classList.toggle('red-focus');
-  
+
             })
+
+            // Also change the color of the button that adds the item
+            document.querySelector(DOMStrings.inputAddButton).classList.toggle('red');
 
         }
 
@@ -524,9 +527,11 @@ let controller = (function (budgetControl, UIControl) {
         });
 
         document.querySelector(DOMStrings.container).addEventListener('click', controlDeleteItem);
-        
+
         // Whenevr the input type changes ( From + to -) call function that toggles red-focus class on button, type, and value
         document.querySelector(DOMStrings.inputType).addEventListener('change', UIController.changeType);
+
+
 
     }
 
