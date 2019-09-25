@@ -130,7 +130,7 @@ let budgetController = (function () {
             // Check if the id we want to delete is in the array of id's ny getting its index
             index = ids.indexOf(id);
 
-            // If the id is not in the array (-1 = not found in array)
+            // If the id is in the array (-1 = not found in array)
             if (index !== -1) {
                 // Splice will remove 1 element, starting at the index we provide
                 // We remove the item with the id we wanted to delete from the data structure
@@ -266,6 +266,18 @@ let UIController = (function () {
 
     };
 
+    // Loop through all the nodes and change the expensepercentagelabel property on them
+    let nodeListForEach = function (list,callback) {
+                
+        // Iterates through node list
+        for (let i = 0; i < list.length; i++) {
+            
+            // A function that will do something to each node
+            callback(list[i],i);
+            
+        }
+    }
+
     // This object that is returned will have access to the outer function, so DOMStrings is private unless 
     // called with getInput mehthod
     return {
@@ -389,6 +401,7 @@ let UIController = (function () {
 
         },
 
+        // 
         displayBudget: function (obj) {
 
             let type;
@@ -442,18 +455,6 @@ let UIController = (function () {
             // Will return a list of nodes , not an array
             let fields = document.querySelectorAll(DOMStrings.expensePercentageLabel);
 
-            // Loop through all the nodes and change the expensepercentagelabel property on them
-            let nodeListForEach = function (list,callback) {
-                
-                // Iterates through node list
-                for (let i = 0; i < list.length; i++) {
-                    
-                    // A function that will do something to each node
-                    callback(list[i],i);
-                    
-                }
-            }
-
             nodeListForEach(fields, function (current, index) {
                 
                 // Current is the current item in list, percenindex will be the value we get from list of %'s
@@ -471,8 +472,26 @@ let UIController = (function () {
 
             })
 
+        },
+
+        changeType: function () {
+
+            // Select the nodes with following class names and hold them in nodelist callled fields
+            let fields = document.querySelectorAll(
+                DOMStrings.inputType + ',' +
+                DOMStrings.inputDescription + ',' +
+                DOMStrings.inputValue
+            
+            );
+            
+            // in each field, toggle red focus class
+            nodeListForEach(fields, function (current) {
+
+                current.classList.toggle('red-focus');
+  
+            })
+
         }
-        
 
     }
 
@@ -493,7 +512,7 @@ let controller = (function (budgetControl, UIControl) {
         // Event is object with information of our event 
         document.addEventListener('keypress', function (event) {
 
-            // To see event properties/ try to find out more about event
+            // TODO : To see event properties/ try to find out more about event
             // console.log(event);
 
             // Enter key was pressed
@@ -504,7 +523,10 @@ let controller = (function (budgetControl, UIControl) {
 
         });
 
-        document.querySelector(DOMStrings.container).addEventListener('click', controlDeleteItem)
+        document.querySelector(DOMStrings.container).addEventListener('click', controlDeleteItem);
+        
+        // Whenevr the input type changes ( From + to -) call function that toggles red-focus class on button, type, and value
+        document.querySelector(DOMStrings.inputType).addEventListener('change', UIController.changeType);
 
     }
 
